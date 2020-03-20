@@ -8,7 +8,6 @@
     "d3-array": "^2.4.0",
     "d3-format": "^1.4.3",
     "d3-scale": "^3.2.1",
-    "layercake": "^2.0.1",
     "tabler-icons": "^1.0.0"
   },
   "devDependencies": {
@@ -22,6 +21,7 @@
     "copy-dir": "^1.2.0",
     "cross-env": "^6.0.3",
     "node-sass": "^4.13.1",
+    "layercake": "^2.0.1",
     "polka": "next",
     "postcss": "^7.0.27",
     "prettier": "^1.19.1",
