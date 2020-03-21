@@ -13,6 +13,10 @@
   .center {
     text-align: center;
   }
+  svg {
+    width: 100%;
+    height: 100%;
+  }
 </style>
 
 <script>
@@ -41,9 +45,9 @@
   let ratio = 1;
   let toggle = "capita_test";
 
-  $: mapH = Math.floor(mapW / ratio);
-  $: scatterH = scatterW;
-  $: desc = toggle === "capita_test" ? "Total Tests" : "Positive Tests";
+  $: mapH = mapW ? Math.floor(mapW / ratio) : 320;
+  $: scatterH = scatterW || 320;
+
   $: if (data) {
     data.sort((a, b) => descending(a[toggle], b[toggle]));
     data = data;
