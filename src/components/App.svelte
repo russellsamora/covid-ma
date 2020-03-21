@@ -6,6 +6,7 @@
 
   figure {
     max-width: 540px;
+    min-height: 320px;
     position: relative;
     margin: 3rem auto;
   }
