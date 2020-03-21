@@ -41,7 +41,7 @@
   import Map from "./Map.svelte";
   import population from "../data/population.csv";
   import grid from "../data/grid.csv";
-  import raw from "../data/raw.json";
+  // import raw from "../data/raw.json";
   import { descending } from "d3-array";
   // import { scale } from 'd3-scale';
   // import wordmarkSvg from "../svg/wordmark.svg";
@@ -100,8 +100,8 @@
 
     return out;
   }
-  onMount(() => {
-    // const raw  = loadRecentData();
+  onMount(async () => {
+    const raw = await loadRecentData();
     data = join(raw);
     const x = Math.max(...data.map(d => d.x));
     const y = Math.max(...data.map(d => d.y));
