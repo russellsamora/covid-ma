@@ -4,31 +4,10 @@
     text-align: center;
   }
 
-  .chart {
-    max-width: 640px;
+  figure {
+    max-width: 540px;
     position: relative;
     margin: 3rem auto;
-  }
-  table {
-    max-width: 640px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  tr:nth-child(even) {
-    background-color: #eee;
-  }
-  td,
-  th {
-    padding: 0.5em;
-    border: none;
-  }
-  tr td:nth-child(1),
-  tr th:nth-child(1) {
-    text-align: left;
-  }
-  tr td:nth-child(n + 1),
-  tr th:nth-child(n + 1) {
-    text-align: right;
   }
   .center {
     text-align: center;
@@ -37,23 +16,32 @@
 
 <script>
   import { onMount } from "svelte";
-  import { LayerCake, Html } from "layercake";
+  import { LayerCake, Html, Svg } from "layercake";
   import Map from "./Map.svelte";
+  import Scatter from "./Scatter.svelte";
+  import AxisX from "./AxisX.svelte";
+  import AxisY from "./AxisY.svelte";
+  import Table from "./Table.svelte";
   import population from "../data/population.csv";
   import grid from "../data/grid.csv";
   // import raw from "../data/raw.json";
   import { descending } from "d3-array";
+  import { format } from "d3-format";
   // import { scale } from 'd3-scale';
   // import wordmarkSvg from "../svg/wordmark.svg";
   // import user from "tabler-icons/icons/user.svg";
 
+  const PAD = 16;
+
   let loaded;
   let data;
-  let chartW;
+  let mapW;
+  let scatterW;
   let ratio = 1;
   let toggle = "capita_test";
 
-  $: chartH = Math.floor(chartW / ratio);
+  $: mapH = Math.floor(mapW / ratio);
+  $: scatterH = scatterW;
   $: desc = toggle === "capita_test" ? "Total Tests" : "Positive Tests";
   $: if (data) {
     data.sort((a, b) => descending(a[toggle], b[toggle]));
@@ -71,12 +59,6 @@
     } catch (err) {
       console.log(err);
     }
-
-    // if (res.ok) {
-    // 	return text;
-    // } else {
-    // 	throw new Error(text);
-    // }
   }
   function join(latest) {
     const out = population
@@ -94,6 +76,7 @@
         ...d,
         capita_test: d.total ? d.total / +d.population : null,
         capita_pos: d.positive ? d.positive / +d.population : null,
+        percent: d.total ? d.positive / d.total : null,
         x: +d.x,
         y: +d.y
       }));
@@ -110,17 +93,20 @@
   });
 </script>
 
-<h1>Covid-19 Cases by State Per Capita</h1>
+<h1>Covid-19 Cases by State</h1>
 
 {#if data}
   <p class="description center">
     <select bind:value="{toggle}">
-      <option value="capita_test">Total Tests</option>
-      <option value="capita_pos">Positive Tests</option>
+      <option value="capita_test">Total tests</option>
+      <option value="capita_pos">Positive tests capita</option>
+      <option value="total">Total tests</option>
+      <option value="positive">Positive tests</option>
+      <option value="percent">% positive</option>
     </select>
-    per capita
   </p>
-  <figure class="chart" style="height: {chartH}px;" bind:clientWidth="{chartW}">
+
+  <figure style="height: {mapH}px;" bind:clientWidth="{mapW}">
     <LayerCake {data} x="x" y="y">
       <Html>
         <Map {toggle} />
@@ -128,25 +114,25 @@
     </LayerCake>
   </figure>
 
-  <h3 class="center">Cases per 1 million residents</h3>
-  <table>
-    <thead>
-      <tr>
-        <th>State</th>
-        <th>Total Tests</th>
-        <th>Positive Tests</th>
-      </tr>
-    </thead>
-    <tbody>
-      {#each data as d (d.code)}
-        <tr>
-          <td>{d.state}</td>
-          <td>{Math.round(d.capita_test * 1000000)}</td>
-          <td>{Math.round(d.capita_pos * 1000000)}</td>
-        </tr>
-      {/each}
-    </tbody>
-  </table>
+  <Table {data} />
+
+  <h3 class="center">Tests Per Capita vs. Total Tests</h3>
+  <figure style="height: {scatterH}px;" bind:clientWidth="{scatterW}">
+    <LayerCake
+      padding="{{ top: PAD, right: PAD, bottom: PAD, left: PAD * 2 }}"
+      x="total"
+      y="capita_test"
+      xPadding="{[PAD, PAD]}"
+      yPadding="{[PAD, PAD]}"
+      {data}>
+
+      <Svg>
+        <AxisX formatTick="{format('.0s')}" />
+        <AxisY formatTick="{format('.2f')}" />
+        <Scatter />
+      </Svg>
+    </LayerCake>
+  </figure>
 {/if}
 
 <p class="source center">

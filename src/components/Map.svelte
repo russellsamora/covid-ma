@@ -23,7 +23,7 @@
     transform: translate(-1.5em, -100%);
   }
   li:first-of-type:before {
-    content: "Fewer";
+    content: "Lower";
     display: block;
     position: absolute;
     top: 0;
@@ -32,7 +32,7 @@
     font-size: 0.8em;
   }
   li:last-of-type:after {
-    content: "More";
+    content: "Higher";
     display: block;
     position: absolute;
     top: 0;
