@@ -104,8 +104,8 @@
   <p class="description center">
     <select bind:value="{toggle}">
       <option value="capita_pos">Positive tests per capita</option>
-      <option value="capita_test">Tests per capita</option>
       <option value="positive">Positive tests</option>
+      <option value="capita_test">Tests per capita</option>
       <option value="total">Total tests</option>
       <option value="percent">% positive</option>
     </select>
