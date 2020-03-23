@@ -43,7 +43,7 @@
   let mapW;
   let scatterW;
   let ratio = 1;
-  let toggle = "capita_test";
+  let toggle = "capita_pos";
 
   $: mapH = mapW ? Math.floor(mapW / ratio) : 320;
   $: scatterH = scatterW || 320;
@@ -103,10 +103,10 @@
 {#if data}
   <p class="description center">
     <select bind:value="{toggle}">
-      <option value="capita_test">Tests per capita</option>
       <option value="capita_pos">Positive tests per capita</option>
-      <option value="total">Total tests</option>
+      <option value="capita_test">Tests per capita</option>
       <option value="positive">Positive tests</option>
+      <option value="total">Total tests</option>
       <option value="percent">% positive</option>
     </select>
   </p>
@@ -121,7 +121,7 @@
 
   <Table {data} />
 
-  <h3 class="center">Tests Per Capita vs. Total Tests</h3>
+  <h3 class="center">Tests Per 1,000 vs. Total Tests</h3>
   <figure style="height: {scatterH}px;" bind:clientWidth="{scatterW}">
     <LayerCake
       padding="{{ top: PAD, right: PAD, bottom: PAD, left: PAD * 2 }}"

@@ -32,10 +32,10 @@
   <thead>
     <tr>
       <th>State</th>
-      <th>Tests per 1,000</th>
       <th>Positive per 1,000</th>
-      <th>Total tests</th>
+      <th>Tests per 1,000</th>
       <th>Positive tests</th>
+      <th>Total tests</th>
       <th>% positive</th>
     </tr>
   </thead>
@@ -43,10 +43,10 @@
     {#each data as d (d.code)}
       <tr>
         <td>{d.state}</td>
-        <td>{format('.2f')(d.capita_test * 1000)}</td>
         <td>{format('.2f')(d.capita_pos * 1000)}</td>
-        <td>{format(',')(d.total)}</td>
+        <td>{format('.2f')(d.capita_test * 1000)}</td>
         <td>{format(',')(d.positive)}</td>
+        <td>{format(',')(d.total)}</td>
         <td>{format('.0%')(d.percent)}</td>
       </tr>
     {/each}
