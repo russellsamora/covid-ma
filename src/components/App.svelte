@@ -65,7 +65,7 @@
     { field: "y", accessor: d => d.casesCapita }
   ];
 
-  let padding = { top: PAD, right: PAD, bottom: PAD, left: PAD };
+  let padding = { top: PAD, right: PAD, bottom: PAD * 2, left: PAD };
   let flatData = [];
 
   // $: mapH = mapW ? Math.floor(mapW / ratio) : 320;
