@@ -36,11 +36,13 @@
   {#each tickVals as tick, i}
     <g
       class="tick tick-{tick}"
-      transform="translate({$xScale(tick)},{$yScale.range()[0]})">
-      {#if gridlines !== false}
-        <line y1="{$height * -1}" y2="0" x1="0" x2="0"></line>
-      {/if}
-      <text y="16" text-anchor="middle">{formatTick(tick)}</text>
+      transform="translate({$xScale(tick)},{$yScale.range()[0] + 16})">
+      <text
+        y="0"
+        x="{i === 0 ? 0 : 4}"
+        text-anchor="{i === 0 ? 'start' : 'end'}">
+        {formatTick(tick)}
+      </text>
     </g>
   {/each}
 </g>

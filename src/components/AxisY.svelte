@@ -17,6 +17,10 @@
   .baseline {
     stroke-dasharray: 0;
   }
+
+  .tick:first-of-type line {
+    display: none;
+  }
 </style>
 
 <script>
@@ -40,7 +44,7 @@
       {#if gridlines !== false}
         <line y1="0" y2="0" x1="0" x2="{$width}"></line>
       {/if}
-      <text y="4" x="-16" text-anchor="middle">{formatTick(tick * 1000)}</text>
+      <text y="-2" x="0" text-anchor="baseline">{formatTick(tick)}</text>
     </g>
   {/each}
 </g>
