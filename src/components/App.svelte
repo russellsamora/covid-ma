@@ -8,21 +8,19 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    visibility: hidden;
-  }
-  .charts.visible {
-    visibility: visible;
   }
   .chart {
-    margin: 0;
-    padding: 0;
+    margin: 1rem 0;
     width: 50%;
-    min-width: 200px;
   }
   figure {
+    padding: 0 1rem;
     display: block;
     margin: 0;
-    height: 250px;
+    visibility: hidden;
+  }
+  figure.visible {
+    visibility: visible;
   }
   h3 {
     margin: 0;
@@ -71,29 +69,31 @@
   const PAD = 8;
   const RATIO = 1;
   const MS_IN_DAY = 86400000;
-  const EXTENT_FIELDS = [
-    { field: "x", accessor: d => d.index },
-    { field: "y", accessor: d => d.casesCapita }
-  ];
 
   let padding = { top: PAD, right: PAD, bottom: PAD * 2, left: PAD };
   let flatData = [];
-  let chartW = 250;
+  let chartW;
   let visible;
+  let toggle = "casesCapita";
 
-  $: chartH = chartW;
-  $: if (chartH) {
-    // console.log(chartW, chartH);
-  }
+  $: chartH = Math.max(150, Math.floor(chartW / 2));
+  $: visible = !!chartW;
 
-  // $: mapH = mapW ? Math.floor(mapW / ratio) : 320;
-  // $: scatterH = scatterW || 320;
-
+  $: fields = [
+    { field: "x", accessor: d => d.index },
+    { field: "y", accessor: d => d[toggle] }
+  ];
   $: countyData = maData ? clean(maData) : [];
-  $: extents = calcExtents(flatData, EXTENT_FIELDS);
+  $: extents = calcExtents(flatData, fields);
   $: yDomain = [0, extents.y[1]];
-  $: xScale = scaleBand().padding(0.1);
+  $: xScale = scaleBand().padding(0);
   $: xDomain = uniques(flatData.map(d => d.dateF));
+
+  $: if (countyData) {
+    const v = `${toggle}Total`;
+    countyData.sort((a, b) => descending(a.value[v], b.value[v]));
+    countyData = countyData;
+  }
 
   function formatTickX(d) {
     return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
@@ -130,7 +130,7 @@
         deathsCapita: perCapita("deaths", d),
         dateF: new Date(d.date)
       }))
-      .filter(d => d.county !== "Unknown");
+      .filter(d => !["Unknown", "Dukes and Nantucket"].includes(d.county));
 
     const start = min(c, d => d.dateF);
 
@@ -143,18 +143,18 @@
       .key(d => d.county)
       .rollup(values => {
         const vals = values.map((v, i) => ({ ...v, index: i }));
-        const total = sum(vals.map(v => v.casesCapita));
+        const casesTotal = sum(vals.map(v => v.cases));
+        const casesCapitaTotal = sum(vals.map(v => v.casesCapita));
         const daily = vals.filter(v => v.dateF - march >= 0);
-        return { daily, total };
+        return { daily, casesTotal, casesCapitaTotal };
       })
       .entries(flatData);
 
-    nested.sort((a, b) => descending(a.value.total, b.value.total));
+    // nested.sort((a, b) => descending(a.value[toggle], b.value[toggle]));
     return nested;
   }
 
   onMount(async () => {
-    visible = true;
     // chartH = chartW;
     // maData = await loadRecentData();
     // const x = Math.max(...data.map(d => d.x));
@@ -165,29 +165,41 @@
 </script>
 
 <h1 class="center">Massachusetts Covid-19 Cases</h1>
-<p class="center">Cumulative cases by county per 1,000 residents</p>
+<p class="center">
+  Cumulative
+  <select bind:value="{toggle}">
+    <option value="casesCapita">cases per 1,000 residents</option>
+    <option value="cases">cases (total)</option>
+  </select>
+  by county
+</p>
 
 <div class="charts" class:visible>
   {#each countyData as { key, value }, i (key)}
-    <div class="chart" bind:offsetWidth="{chartW}">
+    <div class="chart">
       <h3 class="center">{key}</h3>
-      <figure>
-        <LayerCake
-          {xScale}
-          {xDomain}
-          {yDomain}
-          {padding}
-          x="dateF"
-          data="{value.daily}">
-          <Svg>
-            <AxisX
-              ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
-              formatTick="{formatTickX}" />
-            <AxisY tickNumber="{5}" />
-            <Bar y="casesCapita" />
-            <!-- <Bar y="deathsCapita" fill="red" /> -->
-          </Svg>
-        </LayerCake>
+      <figure
+        class:visible
+        style="height: {chartH}px;"
+        bind:clientWidth="{chartW}">
+        {#if visible}
+          <LayerCake
+            {xScale}
+            {xDomain}
+            {yDomain}
+            {padding}
+            x="dateF"
+            y="{toggle}"
+            data="{value.daily}">
+            <Svg>
+              <AxisX
+                ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
+                formatTick="{formatTickX}" />
+              <AxisY tickNumber="{5}" />
+              <Bar />
+            </Svg>
+          </LayerCake>
+        {/if}
       </figure>
     </div>
   {/each}

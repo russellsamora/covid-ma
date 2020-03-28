@@ -19,7 +19,7 @@
   }
 
   .tick:first-of-type line {
-    display: none;
+    /* display: none; */
   }
 </style>
 
