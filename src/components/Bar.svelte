@@ -6,15 +6,22 @@
 
 <script>
   import { getContext } from "svelte";
-  const { data, xGet, yScale, xScale, height } = getContext("LayerCake");
+  const { data, xGet, yScale, xScale, width, height } = getContext("LayerCake");
+
   $: w = $xScale.bandwidth();
-  function calcY(d) {
-    return $yScale(d[y]);
+
+  $: {
+    console.log({ $width, $height });
   }
 
-  function calcH(d) {
-    return $height - $yScale(d[y]);
-  }
+  $: calcY = d => {
+    return $yScale(d[y]);
+  };
+
+  $: calcH = d => {
+    const h = $height - $yScale(d[y]);
+    return h;
+  };
 
   export let y;
   export let fill = "#666";

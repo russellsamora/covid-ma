@@ -4,6 +4,6 @@ svg.svelte-1bkfh9w{position:absolute;top:0;left:0}
 rect.svelte-1jms2ee{stroke:none}
 .tick.svelte-bk4ccn.svelte-bk4ccn{font-size:0.725em;font-weight:200}line.svelte-bk4ccn.svelte-bk4ccn,.tick.svelte-bk4ccn line.svelte-bk4ccn{stroke:#aaa;stroke-dasharray:2}.tick.svelte-bk4ccn text.svelte-bk4ccn{fill:#666}.baseline.svelte-bk4ccn.svelte-bk4ccn{stroke-dasharray:0}.tick.svelte-bk4ccn:first-of-type line.svelte-bk4ccn{display:none}
 .tick.svelte-ax3tjs.svelte-ax3tjs{font-size:0.725em;font-weight:200}.tick.svelte-ax3tjs text.svelte-ax3tjs{fill:#666}.baseline.svelte-ax3tjs.svelte-ax3tjs{stroke-dasharray:0}
-h1.svelte-cwnitn{font-size:1.5em}.charts.svelte-cwnitn{display:flex;flex-wrap:wrap;justify-content:center}.chart.svelte-cwnitn{margin:0;padding:0;width:25%}figure.svelte-cwnitn{display:block;margin:0;height:100%}h3.svelte-cwnitn{margin:0}.center.svelte-cwnitn{text-align:center}
+h1.svelte-1kobvgo{font-size:1.5em}.charts.svelte-1kobvgo{display:flex;flex-wrap:wrap;justify-content:center;visibility:hidden}.charts.visible.svelte-1kobvgo{visibility:visible}.chart.svelte-1kobvgo{margin:0;padding:0;width:50%;min-width:200px}figure.svelte-1kobvgo{display:block;margin:0;height:250px}h3.svelte-1kobvgo{margin:0}.center.svelte-1kobvgo{text-align:center}@media only screen and (min-width: 960px){.chart.svelte-1kobvgo{width:25%}}
 :root{--c1:blue;--c2:red}body{font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif}a.wordmark{display:block;max-width:10rem}

@@ -8,23 +8,32 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    visibility: hidden;
+  }
+  .charts.visible {
+    visibility: visible;
   }
   .chart {
     margin: 0;
     padding: 0;
-    width: 25%;
+    width: 50%;
+    min-width: 200px;
   }
   figure {
     display: block;
     margin: 0;
-    height: 100%;
+    height: 250px;
   }
   h3 {
     margin: 0;
   }
-
   .center {
     text-align: center;
+  }
+  @media only screen and (min-width: 960px) {
+    .chart {
+      width: 25%;
+    }
   }
 </style>
 
@@ -41,6 +50,8 @@
   import AxisX from "./AxisX.svelte";
   import population from "../data/population-ma.csv";
   import maData from "../data/ma.csv";
+
+  // const { width, height } = getContext("LayerCake");
 
   const MONTHS = [
     "Jan.",
@@ -68,8 +79,12 @@
   let padding = { top: PAD, right: PAD, bottom: PAD * 2, left: PAD };
   let flatData = [];
   let chartW = 250;
+  let visible;
 
   $: chartH = chartW;
+  $: if (chartH) {
+    // console.log(chartW, chartH);
+  }
 
   // $: mapH = mapW ? Math.floor(mapW / ratio) : 320;
   // $: scatterH = scatterW || 320;
@@ -78,7 +93,6 @@
   $: extents = calcExtents(flatData, EXTENT_FIELDS);
   $: yDomain = [0, extents.y[1]];
   $: xScale = scaleBand().padding(0.1);
-  // $: xDomain = range(xDomain[1] + 1);
   $: xDomain = uniques(flatData.map(d => d.dateF));
 
   function formatTickX(d) {
@@ -140,6 +154,8 @@
   }
 
   onMount(async () => {
+    visible = true;
+    // chartH = chartW;
     // maData = await loadRecentData();
     // const x = Math.max(...data.map(d => d.x));
     // const y = Math.max(...data.map(d => d.y));
@@ -149,16 +165,14 @@
 </script>
 
 <h1 class="center">Massachusetts Covid-19 Cases</h1>
-<p class="center">Cumulative cases each day by county per 1,000 residents</p>
+<p class="center">Cumulative by county per 1,000 residents</p>
 
-<div class="charts">
+<div class="charts" class:visible>
   {#each countyData as { key, value }, i (key)}
     <div class="chart" bind:offsetWidth="{chartW}">
       <h3 class="center">{key}</h3>
-      <figure style="height: {chartH}px;">
+      <figure>
         <LayerCake
-          height="{chartH}"
-          width="{chartW}"
           {xScale}
           {xDomain}
           {yDomain}
