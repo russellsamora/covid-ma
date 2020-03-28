@@ -25,6 +25,12 @@
   h3 {
     margin: 0;
   }
+  h1 {
+    margin-bottom: 0;
+  }
+  p {
+    margin: 0.5rem 0;
+  }
   .center {
     text-align: center;
   }
@@ -67,7 +73,7 @@
   ];
 
   const PAD = 8;
-  const RATIO = 1;
+  const RATIO = 2;
   const MS_IN_DAY = 86400000;
 
   let padding = { top: PAD, right: PAD, bottom: PAD * 2, left: PAD };
@@ -76,7 +82,7 @@
   let visible;
   let toggle = "casesCapita";
 
-  $: chartH = Math.max(150, Math.floor(chartW / 2));
+  $: chartH = Math.max(150, Math.floor(chartW / RATIO));
   $: visible = !!chartW;
 
   $: fields = [

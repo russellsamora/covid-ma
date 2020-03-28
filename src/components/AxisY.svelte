@@ -12,6 +12,7 @@
 
   .tick text {
     fill: #2a2a2a;
+    font-weight: 400;
   }
 
   .baseline {
