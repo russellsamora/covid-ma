@@ -10,14 +10,14 @@
     justify-content: center;
   }
   .chart {
-    margin: 2rem;
+    margin: 0;
     padding: 0;
+    width: 25%;
   }
   figure {
     display: block;
     margin: 0;
-    width: 250px;
-    height: 250px;
+    height: 100%;
   }
   h3 {
     margin: 0;
@@ -67,6 +67,9 @@
 
   let padding = { top: PAD, right: PAD, bottom: PAD * 2, left: PAD };
   let flatData = [];
+  let chartW = 250;
+
+  $: chartH = chartW;
 
   // $: mapH = mapW ? Math.floor(mapW / ratio) : 320;
   // $: scatterH = scatterW || 320;
@@ -146,14 +149,16 @@
 </script>
 
 <h1 class="center">Massachusetts Covid-19 Cases</h1>
-<p class="center">New cases each day by county per 1,000 residents</p>
+<p class="center">Cumulative cases each day by county per 1,000 residents</p>
 
 <div class="charts">
   {#each countyData as { key, value }, i (key)}
-    <div class="chart">
+    <div class="chart" bind:offsetWidth="{chartW}">
       <h3 class="center">{key}</h3>
-      <figure>
+      <figure style="height: {chartH}px;">
         <LayerCake
+          height="{chartH}"
+          width="{chartW}"
           {xScale}
           {xDomain}
           {yDomain}
