@@ -11,7 +11,7 @@
   }
 
   .tick text {
-    fill: #666;
+    fill: #2a2a2a;
   }
 
   .baseline {
