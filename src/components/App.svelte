@@ -165,7 +165,7 @@
 </script>
 
 <h1 class="center">Massachusetts Covid-19 Cases</h1>
-<p class="center">Cumulative by county per 1,000 residents</p>
+<p class="center">Cumulative cases by county per 1,000 residents</p>
 
 <div class="charts" class:visible>
   {#each countyData as { key, value }, i (key)}

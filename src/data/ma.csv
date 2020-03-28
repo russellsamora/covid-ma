@@ -97,7 +97,6 @@ date,county,state,fips,cases,deaths
 2020-03-15,Plymouth,Massachusetts,25023,3,0
 2020-03-15,Suffolk,Massachusetts,25025,31,0
 2020-03-15,Worcester,Massachusetts,25027,6,0
-2020-03-16,Unknown,Massachusetts,,1,0
 2020-03-16,Barnstable,Massachusetts,25001,1,0
 2020-03-16,Berkshire,Massachusetts,25003,11,0
 2020-03-16,Bristol,Massachusetts,25005,2,0
@@ -107,8 +106,8 @@ date,county,state,fips,cases,deaths
 2020-03-16,Norfolk,Massachusetts,25021,36,0
 2020-03-16,Plymouth,Massachusetts,25023,5,0
 2020-03-16,Suffolk,Massachusetts,25025,42,0
+2020-03-16,Unknown,Massachusetts,,1,0
 2020-03-16,Worcester,Massachusetts,25027,8,0
-2020-03-17,Unknown,Massachusetts,,1,0
 2020-03-17,Barnstable,Massachusetts,25001,2,0
 2020-03-17,Berkshire,Massachusetts,25003,14,0
 2020-03-17,Bristol,Massachusetts,25005,5,0
@@ -118,8 +117,8 @@ date,county,state,fips,cases,deaths
 2020-03-17,Norfolk,Massachusetts,25021,43,0
 2020-03-17,Plymouth,Massachusetts,25023,5,0
 2020-03-17,Suffolk,Massachusetts,25025,42,0
+2020-03-17,Unknown,Massachusetts,,1,0
 2020-03-17,Worcester,Massachusetts,25027,8,0
-2020-03-18,Unknown,Massachusetts,,4,0
 2020-03-18,Barnstable,Massachusetts,25001,2,0
 2020-03-18,Berkshire,Massachusetts,25003,17,0
 2020-03-18,Bristol,Massachusetts,25005,5,0
@@ -130,8 +129,8 @@ date,county,state,fips,cases,deaths
 2020-03-18,Norfolk,Massachusetts,25021,45,0
 2020-03-18,Plymouth,Massachusetts,25023,5,0
 2020-03-18,Suffolk,Massachusetts,25025,51,0
+2020-03-18,Unknown,Massachusetts,,4,0
 2020-03-18,Worcester,Massachusetts,25027,10,0
-2020-03-19,Unknown,Massachusetts,,13,0
 2020-03-19,Barnstable,Massachusetts,25001,5,0
 2020-03-19,Berkshire,Massachusetts,25003,18,0
 2020-03-19,Bristol,Massachusetts,25005,6,0
@@ -143,8 +142,8 @@ date,county,state,fips,cases,deaths
 2020-03-19,Norfolk,Massachusetts,25021,52,0
 2020-03-19,Plymouth,Massachusetts,25023,5,0
 2020-03-19,Suffolk,Massachusetts,25025,72,0
+2020-03-19,Unknown,Massachusetts,,13,0
 2020-03-19,Worcester,Massachusetts,25027,14,0
-2020-03-20,Unknown,Massachusetts,,18,0
 2020-03-20,Barnstable,Massachusetts,25001,9,0
 2020-03-20,Berkshire,Massachusetts,25003,20,0
 2020-03-20,Bristol,Massachusetts,25005,6,0
@@ -156,8 +155,8 @@ date,county,state,fips,cases,deaths
 2020-03-20,Norfolk,Massachusetts,25021,64,0
 2020-03-20,Plymouth,Massachusetts,25023,11,0
 2020-03-20,Suffolk,Massachusetts,25025,87,1
+2020-03-20,Unknown,Massachusetts,,18,0
 2020-03-20,Worcester,Massachusetts,25027,19,0
-2020-03-21,Unknown,Massachusetts,,26,0
 2020-03-21,Barnstable,Massachusetts,25001,11,0
 2020-03-21,Berkshire,Massachusetts,25003,21,0
 2020-03-21,Bristol,Massachusetts,25005,14,0
@@ -170,8 +169,8 @@ date,county,state,fips,cases,deaths
 2020-03-21,Norfolk,Massachusetts,25021,69,0
 2020-03-21,Plymouth,Massachusetts,25023,20,0
 2020-03-21,Suffolk,Massachusetts,25025,108,1
+2020-03-21,Unknown,Massachusetts,,26,0
 2020-03-21,Worcester,Massachusetts,25027,24,0
-2020-03-22,Unknown,Massachusetts,,34,0
 2020-03-22,Barnstable,Massachusetts,25001,24,0
 2020-03-22,Berkshire,Massachusetts,25003,23,1
 2020-03-22,Bristol,Massachusetts,25005,24,0
@@ -184,8 +183,8 @@ date,county,state,fips,cases,deaths
 2020-03-22,Norfolk,Massachusetts,25021,75,0
 2020-03-22,Plymouth,Massachusetts,25023,25,0
 2020-03-22,Suffolk,Massachusetts,25025,126,2
+2020-03-22,Unknown,Massachusetts,,34,0
 2020-03-22,Worcester,Massachusetts,25027,37,0
-2020-03-23,Unknown,Massachusetts,,57,0
 2020-03-23,Barnstable,Massachusetts,25001,30,0
 2020-03-23,Berkshire,Massachusetts,25003,26,1
 2020-03-23,Bristol,Massachusetts,25005,25,0
@@ -198,6 +197,7 @@ date,county,state,fips,cases,deaths
 2020-03-23,Norfolk,Massachusetts,25021,82,0
 2020-03-23,Plymouth,Massachusetts,25023,32,0
 2020-03-23,Suffolk,Massachusetts,25025,154,2
+2020-03-23,Unknown,Massachusetts,,57,0
 2020-03-23,Worcester,Massachusetts,25027,42,0
 2020-03-24,Barnstable,Massachusetts,25001,40,0
 2020-03-24,Berkshire,Massachusetts,25003,37,2
@@ -211,8 +211,8 @@ date,county,state,fips,cases,deaths
 2020-03-24,Norfolk,Massachusetts,25021,129,0
 2020-03-24,Plymouth,Massachusetts,25023,64,0
 2020-03-24,Suffolk,Massachusetts,25025,234,2
+2020-03-24,Unknown,Massachusetts,,90,4
 2020-03-24,Worcester,Massachusetts,25027,73,0
-2020-03-24,Unknown,Massachusetts,25999,90,4
 2020-03-25,Barnstable,Massachusetts,25001,51,1
 2020-03-25,Berkshire,Massachusetts,25003,71,2
 2020-03-25,Bristol,Massachusetts,25005,67,0
@@ -226,5 +226,21 @@ date,county,state,fips,cases,deaths
 2020-03-25,Norfolk,Massachusetts,25021,222,1
 2020-03-25,Plymouth,Massachusetts,25023,101,0
 2020-03-25,Suffolk,Massachusetts,25025,342,2
+2020-03-25,Unknown,Massachusetts,,159,4
 2020-03-25,Worcester,Massachusetts,25027,129,2
-2020-03-25,Unknown,Massachusetts,25999,159,4
+2020-03-26,Barnstable,Massachusetts,25001,67,1
+2020-03-26,Berkshire,Massachusetts,25003,73,2
+2020-03-26,Bristol,Massachusetts,25005,90,0
+2020-03-26,Dukes,Massachusetts,25007,1,0
+2020-03-26,Dukes and Nantucket,Massachusetts,,3,0
+2020-03-26,Essex,Massachusetts,25009,247,2
+2020-03-26,Franklin,Massachusetts,25011,16,1
+2020-03-26,Hampden,Massachusetts,25013,55,2
+2020-03-26,Hampshire,Massachusetts,25015,17,0
+2020-03-26,Middlesex,Massachusetts,25017,538,5
+2020-03-26,Nantucket,Massachusetts,25019,2,0
+2020-03-26,Norfolk,Massachusetts,25021,292,2
+2020-03-26,Plymouth,Massachusetts,25023,138,0
+2020-03-26,Suffolk,Massachusetts,25025,448,3
+2020-03-26,Unknown,Massachusetts,,267,4
+2020-03-26,Worcester,Massachusetts,25027,166,3
