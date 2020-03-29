@@ -96,8 +96,12 @@
   $: xDomain = uniques(flatData.map(d => d.dateF));
 
   $: if (countyData) {
-    const v = `${toggle}Total`;
-    countyData.sort((a, b) => descending(a.value[v], b.value[v]));
+    countyData.sort((a, b) =>
+      descending(
+        a.value[a.value.length - 1][toggle],
+        b.value[b.value.length - 1][toggle]
+      )
+    );
     countyData = countyData;
   }
 
@@ -149,10 +153,9 @@
       .key(d => d.county)
       .rollup(values => {
         const vals = values.map((v, i) => ({ ...v, index: i }));
-        const casesTotal = sum(vals.map(v => v.cases));
-        const casesCapitaTotal = sum(vals.map(v => v.casesCapita));
-        const daily = vals.filter(v => v.dateF - march >= 0);
-        return { daily, casesTotal, casesCapitaTotal };
+        // const casesTotal = sum(vals.map(v => v.cases));
+        // const casesCapitaTotal = sum(vals.map(v => v.casesCapita));
+        return vals.filter(v => v.dateF - march >= 0);
       })
       .entries(flatData);
 
@@ -196,7 +199,7 @@
             {padding}
             x="dateF"
             y="{toggle}"
-            data="{value.daily}">
+            data="{value}">
             <Svg>
               <AxisX
                 ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
