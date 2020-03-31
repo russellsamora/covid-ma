@@ -3,7 +3,7 @@ const replace = require("replace-in-file");
 
 const options = {
   files: "__sapper__/export/index.html",
-  from: ["<base href=/ >", '"/client'],
+  from: ["<base href=/ >", /"\/client/g],
   to: ['<base href="" >', '"client']
 };
 
