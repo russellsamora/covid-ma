@@ -4,107 +4,42 @@
     font-size: 1.5em;
   }
 
-  .charts {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-bottom: 3rem;
-  }
-  .chart {
-    margin: 1rem 0;
-    width: 50%;
-  }
-  figure {
-    padding: 0 1rem;
-    display: block;
-    margin: 0;
-    visibility: hidden;
-  }
-  figure.visible {
-    visibility: visible;
-  }
-  h5 {
-    margin: 0;
-  }
   h1 {
     margin-bottom: 0;
   }
   p {
     margin: 0.5rem 0;
   }
-  .center {
-    text-align: center;
-  }
-  @media only screen and (min-width: 640px) {
-    .chart {
-      width: 25%;
-    }
-  }
-  @media only screen and (min-width: 800px) {
-    .chart {
-      width: 20%;
-    }
-  }
-  @media only screen and (min-width: 960px) {
-    .chart {
-      width: 16.25%;
-    }
-  }
-  @media only screen and (min-width: 1120px) {
-    .chart {
-      width: 13.33%;
-    }
-  }
 </style>
 
 <script>
-  import { onMount } from "svelte";
   import { LayerCake, Svg, flatten, calcExtents, uniques } from "layercake";
-  import { min, range, sum, ascending, descending } from "d3-array";
+  import { min, range, sum, ascending } from "d3-array";
   import { nest } from "d3-collection";
   import { format } from "d3-format";
-  import { csvParse } from "d3-dsv";
   import { scaleBand } from "d3-scale";
-  import Bar from "./Bar.svelte";
-  import AxisY from "./AxisY.svelte";
-  import AxisX from "./AxisX.svelte";
+  import ByCounty from "./ByCounty.svelte";
+  import BerkshireVsMa from "./BerkshireVsMa.svelte";
   import population from "../data/population-ma.csv";
   import maData from "../data/ma.csv";
 
-  // const { width, height } = getContext("LayerCake");
-
-  const MONTHS = [
-    "Jan.",
-    "Feb.",
-    "Mar.",
-    "Apr.",
-    "May",
-    "June",
-    "July",
-    "Aug.",
-    "Sep.",
-    "Oct.",
-    "Nov.",
-    "Dec."
-  ];
-
-  const PAD = 8;
-  const RATIO = 3;
   const MS_IN_DAY = 86400000;
-
-  let padding = { top: PAD, right: PAD, bottom: PAD * 3, left: PAD };
-  let chartW;
-  let visible;
-  let toggle = "casesCapita";
-  let xDomain;
-
-  $: chartH = Math.max(120, Math.floor(chartW / RATIO));
-  $: visible = !!chartW;
-
-  $: fields = [
-    { field: "x", accessor: d => d.index },
-    { field: "y", accessor: d => d[toggle] }
+  const MONTHS = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
   ];
+
+  let xDomain;
 
   $: cleanData = maData ? clean(maData) : [];
   $: countyData = byCounty(cleanData);
@@ -115,43 +50,16 @@
     key: "Rest of Mass.",
     value: rollup(countyData, "Berkshire")
   };
-  $: extents = calcExtents(flatData, fields);
-  $: yDomain = [0, extents.y[1]];
+
   $: xScale = scaleBand().padding(0);
   $: {
     const u = uniques(flatData.map(d => d.date)).map(d => new Date(d));
     u.sort(ascending);
     xDomain = u;
   }
-  $: if (countyData) {
-    countyData.sort((a, b) =>
-      descending(
-        a.value[a.value.length - 1][toggle],
-        b.value[b.value.length - 1][toggle]
-      )
-    );
-    countyData = countyData;
-  }
 
   function formatTickX(d) {
     return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
-  }
-
-  function formatTickY(d) {
-    return format(",")(d);
-  }
-
-  async function loadRecentData() {
-    try {
-      const url =
-        "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv";
-      const res = await fetch(url);
-      const text = await res.text();
-      const raw = csvParse(text);
-      return raw;
-    } catch (err) {
-      console.log(err);
-    }
   }
 
   function perCapita(v, d) {
@@ -206,6 +114,7 @@
         const casesNewCapita = (casesNew / pop) * 1000;
         const deathsNewCapita = (deathsNew / pop) * 1000;
         return {
+          dateF: values[0].dateF,
           cases,
           deaths,
           casesCapita,
@@ -241,69 +150,27 @@
       dayIndex: Math.floor((d.dateF - start) / MS_IN_DAY)
     }));
   }
-
-  onMount(async () => {
-    // chartH = chartW;
-    // maData = await loadRecentData();
-    // const x = Math.max(...data.map(d => d.x));
-    // const y = Math.max(...data.map(d => d.y));
-    // ratio = x / y;
-    // loaded = true;
-  });
 </script>
 
 <h1 class="center">Confirmed Covid-19 Cases in Massachusetts</h1>
-<p class="center">
-  <select bind:value="{toggle}">
-    <option value="casesCapita">Cumulative cases per 1,000 residents</option>
-    <option value="cases">Cumulative cases (total)</option>
-    <option value="deathsCapita">Cumulative deaths per 1,000 residents</option>
-    <option value="deaths">Cumulative deaths (total)</option>
-    <option value="casesNew">New cases each day</option>
-    <option value="deathsNew">New deaths each day</option>
-  </select>
-  by county
-</p>
 
-<div class="charts" class:visible>
-  {#each countyData.filter(d => d.key !== 'Unknown') as { key, value }, i (key)}
-    <div class="chart">
-      <h5 class="center">{key}</h5>
-      <figure
-        class:visible
-        style="height: {chartH}px;"
-        bind:clientWidth="{chartW}">
-        {#if visible}
-          <LayerCake
-            {xScale}
-            {xDomain}
-            {yDomain}
-            {padding}
-            x="dateF"
-            y="{toggle}"
-            data="{value}">
-            <Svg>
-              <AxisX
-                ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
-                formatTick="{formatTickX}" />
-              <AxisY tickNumber="{3}" formatTick="{formatTickY}" />
-              <Bar {toggle} />
-            </Svg>
-          </LayerCake>
-        {/if}
-      </figure>
-    </div>
-  {/each}
-</div>
+<BerkshireVsMa
+  data="{[otherData, berkshireData]}"
+  {xScale}
+  {xDomain}
+  {formatTickX} />
+
+<ByCounty data="{countyData}" {xScale} {xDomain} {formatTickX} />
 
 <p class="center">
   Data source:
   <a
+    target="_blank"
     href="https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html">
     New York Times
   </a>
 </p>
 <p class="center">
   By
-  <a href="https://twitter.com/codenberg">Russell Goldenberg</a>
+  <a target="_blank" href="https://twitter.com/codenberg">Russell Goldenberg</a>
 </p>
