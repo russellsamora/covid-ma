@@ -105,7 +105,9 @@
     { field: "x", accessor: d => d.index },
     { field: "y", accessor: d => d[toggle] }
   ];
-  $: countyData = maData ? clean(maData) : [];
+  $: cleanData = maData ? clean(maData) : [];
+  $: stateData = rollup(cleanData);
+  $: countyData = cleanData.filter(d => d.key !== "Unknown");
   $: extents = calcExtents(flatData, fields);
   $: yDomain = [0, extents.y[1]];
   $: xScale = scaleBand().padding(0);
@@ -148,6 +150,17 @@
     return null;
   }
 
+  function rollup(data) {
+    return nest()
+      .key(d => d.dateF)
+      .rollup(values => {
+        const cases = sum(values, v => v.cases);
+        const deaths = sum(values, v => v.death);
+        return { cases, deaths };
+      })
+      .entries([].concat(...data.map(d => d.value)));
+  }
+
   function clean(raw) {
     const march = new Date("2020-03-01");
     const c = raw
@@ -160,7 +173,6 @@
         deathsCapita: perCapita("deaths", d),
         dateF: new Date(d.date)
       }))
-      .filter(d => !["Unknown", "Dukes and Nantucket"].includes(d.county))
       .filter(v => v.dateF - march >= 0);
 
     const start = min(c, d => d.dateF);
@@ -174,13 +186,10 @@
       .key(d => d.county)
       .rollup(values => {
         const vals = values.map((v, i) => ({ ...v, index: i }));
-        // const casesTotal = sum(vals.map(v => v.cases));
-        // const casesCapitaTotal = sum(vals.map(v => v.casesCapita));
         return vals;
       })
       .entries(flatData);
 
-    // nested.sort((a, b) => descending(a.value[toggle], b.value[toggle]));
     return nested;
   }
 
