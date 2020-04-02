@@ -140,7 +140,8 @@
         deathsCapita: perCapita("deaths", d),
         dateF: new Date(d.date)
       }))
-      .filter(d => !["Unknown", "Dukes and Nantucket"].includes(d.county));
+      .filter(d => !["Unknown", "Dukes and Nantucket"].includes(d.county))
+      .filter(v => v.dateF - march >= 0);
 
     const start = min(c, d => d.dateF);
 
@@ -155,7 +156,7 @@
         const vals = values.map((v, i) => ({ ...v, index: i }));
         // const casesTotal = sum(vals.map(v => v.cases));
         // const casesCapitaTotal = sum(vals.map(v => v.casesCapita));
-        return vals.filter(v => v.dateF - march >= 0);
+        return vals;
       })
       .entries(flatData);
 
@@ -179,6 +180,8 @@
   <select bind:value="{toggle}">
     <option value="casesCapita">cases per 1,000 residents</option>
     <option value="cases">cases (total)</option>
+    <option value="deathsCapita">deaths per 1,000 residents</option>
+    <option value="deaths">deaths (total)</option>
   </select>
   by county
 </p>
