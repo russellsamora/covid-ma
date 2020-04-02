@@ -298,7 +298,10 @@
 
 <p class="center">
   Data source:
-  <a href="https://github.com/nytimes/covid-19-data">NYT</a>
+  <a
+    href="https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html">
+    New York Times
+  </a>
 </p>
 <p class="center">
   By
