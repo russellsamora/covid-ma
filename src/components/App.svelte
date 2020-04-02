@@ -34,9 +34,14 @@
   .center {
     text-align: center;
   }
-  @media only screen and (min-width: 960px) {
+  @media only screen and (min-width: 640px) {
     .chart {
-      width: 25%;
+      width: 20%;
+    }
+  }
+  @media only screen and (min-width: 1024px) {
+    .chart {
+      width: 13.333%;
     }
   }
 </style>
@@ -73,7 +78,7 @@
   ];
 
   const PAD = 8;
-  const RATIO = 2;
+  const RATIO = 3;
   const MS_IN_DAY = 86400000;
 
   let padding = { top: PAD, right: PAD, bottom: PAD * 2, left: PAD };
