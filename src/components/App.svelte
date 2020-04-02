@@ -92,10 +92,11 @@
   const RATIO = 3;
   const MS_IN_DAY = 86400000;
 
-  let padding = { top: PAD, right: PAD, bottom: PAD * 2, left: PAD };
+  let padding = { top: PAD, right: PAD, bottom: PAD * 3, left: PAD };
   let chartW;
   let visible;
   let toggle = "casesCapita";
+  let xDomain;
 
   $: chartH = Math.max(120, Math.floor(chartW / RATIO));
   $: visible = !!chartW;
@@ -117,8 +118,11 @@
   $: extents = calcExtents(flatData, fields);
   $: yDomain = [0, extents.y[1]];
   $: xScale = scaleBand().padding(0);
-  $: xDomain = uniques(flatData.map(d => d.dateF));
-
+  $: {
+    const u = uniques(flatData.map(d => d.date)).map(d => new Date(d));
+    u.sort(ascending);
+    xDomain = u;
+  }
   $: if (countyData) {
     countyData.sort((a, b) =>
       descending(
@@ -248,15 +252,15 @@
   });
 </script>
 
-<h1 class="center">Massachusetts Covid-19 Cases</h1>
+<h1 class="center">Confirmed Covid-19 Cases in Massachusetts</h1>
 <p class="center">
-  Cumulative
   <select bind:value="{toggle}">
-    <option value="casesCapita">cases per 1,000 residents</option>
-    <option value="cases">cases (total)</option>
-    <option value="deathsCapita">deaths per 1,000 residents</option>
-    <option value="deaths">deaths (total)</option>
-    <option value="casesNew">new cases each day</option>
+    <option value="casesCapita">Cumulative cases per 1,000 residents</option>
+    <option value="cases">Cumulative cases (total)</option>
+    <option value="deathsCapita">Cumulative deaths per 1,000 residents</option>
+    <option value="deaths">Cumulative deaths (total)</option>
+    <option value="casesNew">New cases each day</option>
+    <option value="deathsNew">New deaths each day</option>
   </select>
   by county
 </p>

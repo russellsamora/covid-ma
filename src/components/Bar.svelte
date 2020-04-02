@@ -3,11 +3,13 @@
     stroke: white;
   }
   .cases,
-  .casesCapita {
+  .casesCapita,
+  .casesNew {
     fill: #666;
   }
   .deaths,
-  .deathsCapita {
+  .deathsCapita,
+  .deathsNew {
     fill: #c30;
   }
 </style>
