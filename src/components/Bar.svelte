@@ -1,6 +1,6 @@
 <style>
   rect {
-    stroke: none;
+    stroke: white;
   }
   .cases,
   .casesCapita {
@@ -22,7 +22,7 @@
 
   $: calcH = d => {
     const h = $height - $yGet(d);
-    return h;
+    return 2 + h;
   };
 </script>
 
@@ -32,7 +32,7 @@
       <rect
         class="{toggle}"
         x="0"
-        y="{$yGet(d)}"
+        y="{$yGet(d) - 1}"
         width="{w}"
         height="{calcH(d)}"></rect>
     </g>

@@ -8,6 +8,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    margin-bottom: 3rem;
   }
   .chart {
     margin: 1rem 0;
@@ -22,7 +23,7 @@
   figure.visible {
     visibility: visible;
   }
-  h3 {
+  h5 {
     margin: 0;
   }
   h1 {
@@ -36,12 +37,22 @@
   }
   @media only screen and (min-width: 640px) {
     .chart {
+      width: 25%;
+    }
+  }
+  @media only screen and (min-width: 800px) {
+    .chart {
       width: 20%;
     }
   }
-  @media only screen and (min-width: 1024px) {
+  @media only screen and (min-width: 960px) {
     .chart {
-      width: 13.333%;
+      width: 16.25%;
+    }
+  }
+  @media only screen and (min-width: 1120px) {
+    .chart {
+      width: 13.33%;
     }
   }
 </style>
@@ -87,7 +98,7 @@
   let visible;
   let toggle = "casesCapita";
 
-  $: chartH = Math.max(150, Math.floor(chartW / RATIO));
+  $: chartH = Math.max(120, Math.floor(chartW / RATIO));
   $: visible = !!chartW;
 
   $: fields = [
@@ -112,6 +123,10 @@
 
   function formatTickX(d) {
     return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
+  }
+
+  function formatTickY(d) {
+    return format(",")(d);
   }
 
   async function loadRecentData() {
@@ -194,7 +209,7 @@
 <div class="charts" class:visible>
   {#each countyData as { key, value }, i (key)}
     <div class="chart">
-      <h3 class="center">{key}</h3>
+      <h5 class="center">{key}</h5>
       <figure
         class:visible
         style="height: {chartH}px;"
@@ -212,7 +227,7 @@
               <AxisX
                 ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
                 formatTick="{formatTickX}" />
-              <AxisY tickNumber="{4}" />
+              <AxisY tickNumber="{3}" formatTick="{formatTickY}" />
               <Bar {toggle} />
             </Svg>
           </LayerCake>
