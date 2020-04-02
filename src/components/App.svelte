@@ -207,8 +207,8 @@
               <AxisX
                 ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
                 formatTick="{formatTickX}" />
-              <AxisY tickNumber="{5}" />
-              <Bar />
+              <AxisY tickNumber="{4}" />
+              <Bar {toggle} />
             </Svg>
           </LayerCake>
         {/if}

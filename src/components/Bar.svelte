@@ -2,11 +2,21 @@
   rect {
     stroke: none;
   }
+  .cases,
+  .casesCapita {
+    fill: #666;
+  }
+  .deaths,
+  .deathsCapita {
+    fill: #c30;
+  }
 </style>
 
 <script>
   import { getContext } from "svelte";
   const { data, xGet, yGet, xScale, width, height } = getContext("LayerCake");
+
+  export let toggle;
 
   $: w = $xScale.bandwidth();
 
@@ -14,14 +24,17 @@
     const h = $height - $yGet(d);
     return h;
   };
-
-  export let fill = "#666";
 </script>
 
 <g class="days">
   {#each $data as d, i (d.index)}
     <g class="day" transform="translate({$xGet(d)}, 0)">
-      <rect {fill} x="0" y="{$yGet(d)}" width="{w}" height="{calcH(d)}"></rect>
+      <rect
+        class="{toggle}"
+        x="0"
+        y="{$yGet(d)}"
+        width="{w}"
+        height="{calcH(d)}"></rect>
     </g>
   {/each}
 </g>
