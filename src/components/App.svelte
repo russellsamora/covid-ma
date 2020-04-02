@@ -60,7 +60,7 @@
 <script>
   import { onMount } from "svelte";
   import { LayerCake, Svg, flatten, calcExtents, uniques } from "layercake";
-  import { min, range, sum, descending } from "d3-array";
+  import { min, range, sum, ascending, descending } from "d3-array";
   import { nest } from "d3-collection";
   import { format } from "d3-format";
   import { csvParse } from "d3-dsv";
@@ -93,7 +93,6 @@
   const MS_IN_DAY = 86400000;
 
   let padding = { top: PAD, right: PAD, bottom: PAD * 2, left: PAD };
-  let flatData = [];
   let chartW;
   let visible;
   let toggle = "casesCapita";
@@ -105,9 +104,16 @@
     { field: "x", accessor: d => d.index },
     { field: "y", accessor: d => d[toggle] }
   ];
+
   $: cleanData = maData ? clean(maData) : [];
-  $: stateData = rollup(cleanData);
-  $: countyData = cleanData.filter(d => d.key !== "Unknown");
+  $: countyData = byCounty(cleanData);
+  $: flatData = flatten(countyData.map(d => d.value));
+  $: berkshireData = countyData.find(d => d.key === "Berkshire");
+  $: stateData = { key: "Mass.", value: rollup(countyData) };
+  $: otherData = {
+    key: "Rest of Mass.",
+    value: rollup(countyData, "Berkshire")
+  };
   $: extents = calcExtents(flatData, fields);
   $: yDomain = [0, extents.y[1]];
   $: xScale = scaleBand().padding(0);
@@ -150,15 +156,64 @@
     return null;
   }
 
-  function rollup(data) {
+  function byCounty(data) {
+    return nest()
+      .key(d => d.county)
+      .rollup(values => {
+        values.sort((a, b) => ascending(a.dateF, b.dateF));
+        const withNew = values.map((v, i) => {
+          const casesNew = i > 0 ? v.cases - values[i - 1].cases : 0;
+          const deathsNew = i > 0 ? v.deaths - values[i - 1].deaths : 0;
+          return {
+            ...v,
+            index: i,
+            casesNew,
+            deathsNew
+          };
+        });
+        const withCapita = withNew.map(d => ({
+          ...d,
+          casesNewCapita: perCapita("casesNew", d),
+          deathsNewCapita: perCapita("deathsNew", d)
+        }));
+        return withCapita;
+      })
+      .entries(data);
+  }
+
+  function rollup(data, exclude = []) {
+    const flat = flatten(data.map(d => d.value));
+    const entries = flat.filter(d => !exclude.includes(d.county));
+    const counties = uniques(entries.map(d => d.county));
+    const pop = sum(counties, c => {
+      const m = population.find(p => p.county === c);
+      return m ? +m.population : 0;
+    });
+
     return nest()
       .key(d => d.dateF)
       .rollup(values => {
         const cases = sum(values, v => v.cases);
-        const deaths = sum(values, v => v.death);
-        return { cases, deaths };
+        const deaths = sum(values, v => v.deaths);
+        const casesNew = sum(values, v => v.casesNew);
+        const deathsNew = sum(values, v => v.deathsNew);
+        const casesCapita = (cases / pop) * 1000;
+        const deathsCapita = (deaths / pop) * 1000;
+        const casesNewCapita = (casesNew / pop) * 1000;
+        const deathsNewCapita = (deathsNew / pop) * 1000;
+        return {
+          cases,
+          deaths,
+          casesCapita,
+          deathsCapita,
+          casesNew,
+          deathsNew,
+          casesNewCapita,
+          deathsNewCapita
+        };
       })
-      .entries([].concat(...data.map(d => d.value)));
+      .entries(entries)
+      .map(d => d.value);
   }
 
   function clean(raw) {
@@ -177,20 +232,10 @@
 
     const start = min(c, d => d.dateF);
 
-    flatData = c.map(d => ({
+    return c.map(d => ({
       ...d,
       dayIndex: Math.floor((d.dateF - start) / MS_IN_DAY)
     }));
-
-    const nested = nest()
-      .key(d => d.county)
-      .rollup(values => {
-        const vals = values.map((v, i) => ({ ...v, index: i }));
-        return vals;
-      })
-      .entries(flatData);
-
-    return nested;
   }
 
   onMount(async () => {
@@ -211,12 +256,13 @@
     <option value="cases">cases (total)</option>
     <option value="deathsCapita">deaths per 1,000 residents</option>
     <option value="deaths">deaths (total)</option>
+    <option value="casesNew">new cases each day</option>
   </select>
   by county
 </p>
 
 <div class="charts" class:visible>
-  {#each countyData as { key, value }, i (key)}
+  {#each countyData.filter(d => d.key !== 'Unknown') as { key, value }, i (key)}
     <div class="chart">
       <h5 class="center">{key}</h5>
       <figure
