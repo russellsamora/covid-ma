@@ -28,21 +28,22 @@
     calcExtents,
     uniques
   } from "layercake";
-  import { descending } from "d3-array";
+  import { ascending, descending } from "d3-array";
   import { format } from "d3-format";
 
   export let data;
   export let xScale;
-  export let xDomain;
   export let formatTickX;
 
   const PAD = 8;
   const RATIO = 3;
+  const START = new Date("2020-03-14");
 
   let padding = { top: PAD, right: PAD, bottom: PAD * 3, left: PAD };
   let chartW;
   let visible;
   let toggle = "deathsCapita";
+  let xDomain;
 
   $: flatData = flatten(data.map(d => d.value));
   $: extents = calcExtents(flatData, fields);
@@ -55,6 +56,19 @@
   $: chartH = Math.max(120, Math.floor(chartW / RATIO));
   $: visible = !!chartW;
   $: yDomain = [0, extents.y[1]];
+
+  $: {
+    const u = uniques(flatData.map(d => d.date))
+      .map(d => new Date(d))
+      .filter(d => d >= START);
+    u.sort(ascending);
+    xDomain = u;
+  }
+
+  $: chartData = data.map(d => ({
+    ...d,
+    value: d.value.filter(v => v.dateF >= START)
+  }));
 
   function formatTickY(d) {
     return format(",")(d);
@@ -78,7 +92,7 @@
         {padding}
         x="dateF"
         y="{toggle}"
-        {data}>
+        data="{chartData}">
         <Svg>
           <AxisX
             ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"

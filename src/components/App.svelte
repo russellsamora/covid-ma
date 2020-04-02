@@ -114,6 +114,8 @@
         const casesNewCapita = (casesNew / pop) * 1000;
         const deathsNewCapita = (deathsNew / pop) * 1000;
         return {
+          date: values[0],
+          dayIndex: values[0],
           dateF: values[0].dateF,
           cases,
           deaths,
@@ -154,11 +156,7 @@
 
 <h1 class="center">Confirmed Covid-19 Cases in Massachusetts</h1>
 
-<BerkshireVsMa
-  data="{[otherData, berkshireData]}"
-  {xScale}
-  {xDomain}
-  {formatTickX} />
+<BerkshireVsMa data="{[otherData, berkshireData]}" {xScale} {formatTickX} />
 
 <ByCounty data="{countyData}" {xScale} {xDomain} {formatTickX} />
 

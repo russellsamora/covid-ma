@@ -6,6 +6,7 @@
   }
   .Berkshire {
     stroke: #c3c;
+    stroke-width: 3px;
   }
 </style>
 
