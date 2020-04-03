@@ -131,7 +131,6 @@
   function clean(raw) {
     const march = new Date("2020-03-01");
     const c = raw
-      .filter(d => d.state === "Massachusetts")
       .map(d => ({
         ...d,
         cases: +d.cases,
