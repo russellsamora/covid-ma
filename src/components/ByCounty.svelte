@@ -176,7 +176,8 @@
             <Svg>
               <AxisX
                 ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
-                formatTick="{formatTickX}" />
+                formatTick="{formatTickX}"
+                bar="{true}" />
               <AxisY baseline="true" />
               <Bar {toggle} {key} />
             </Svg>

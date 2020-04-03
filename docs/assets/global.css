@@ -12,7 +12,10 @@ body {
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-weight: 400;
 }
-
+h3 {
+  text-align: center;
+  color: var(--black);
+}
 .center {
   text-align: center;
 }

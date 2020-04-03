@@ -16,6 +16,7 @@
   import { scaleBand } from "d3-scale";
   import ByCounty from "./ByCounty.svelte";
   import BerkshireVsMa from "./BerkshireVsMa.svelte";
+  import MaDeath from "./MaDeath.svelte";
   import population from "../data/population-ma.csv";
   import maData from "../data/ma.csv";
 
@@ -110,8 +111,8 @@
         const casesNewCapita = (casesNew / pop) * 1000;
         const deathsNewCapita = (deathsNew / pop) * 1000;
         return {
-          date: values[0],
-          dayIndex: values[0],
+          date: values[0].date,
+          dayIndex: values[0].dayIndex,
           dateF: values[0].dateF,
           cases,
           deaths,
@@ -150,11 +151,13 @@
   }
 </script>
 
-<h1 class="center">Covid-19 Cases in Massachusetts</h1>
+<h3 class="center">Covid-19 cases in Massachusetts</h3>
 
 <BerkshireVsMa data="{[otherData, berkshireData]}" {xScale} {formatTickX} />
 
 <ByCounty data="{countyData}" {xScale} {xDomain} {formatTickX} />
+
+<MaDeath data="{stateData.value}" {xScale} {xDomain} {formatTickX} />
 
 <p class="center">
   Data source:
