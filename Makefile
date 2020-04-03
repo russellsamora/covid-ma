@@ -1,8 +1,8 @@
-PHONY: github aws-sync aws-cache pudding
+PHONY: github data
 
 github:
 	rm -rf docs
-	cp -r __sapper__/export/covid docs
+	cp -r __sapper__/export/covid-ma docs
 	git add -A
 	git commit -m "update github pages"
 	git push
