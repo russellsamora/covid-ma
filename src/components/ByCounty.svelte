@@ -11,7 +11,7 @@
     user-select: none;
   }
   figure {
-    padding: 0 1rem;
+    padding: 0;
     display: block;
     margin: 0;
     visibility: hidden;
