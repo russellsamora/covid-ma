@@ -2,7 +2,7 @@
   .chart {
     margin: 1rem auto;
     width: 100%;
-    max-width: 685px;
+    max-width: var(--maxWidth);
     user-select: none;
   }
   figure {
@@ -21,6 +21,7 @@
   }
   button {
     margin: 0 0.25em;
+    width: 5rem;
   }
 </style>
 
@@ -97,16 +98,17 @@
   }
 </script>
 
-<div class="choose">
-  <button class:active="{classA}" on:click="{change}" data-a="cases">
-    Cases
-  </button>
-  <button class:active="{!classA}" on:click="{change}" data-a="deaths">
-    Deaths
-  </button>
-</div>
-
 <div class="chart" class:visible>
+
+  <h3 class="center">Covid-19 cases in Massachusetts</h3>
+  <div class="choose">
+    <button class:active="{classA}" on:click="{change}" data-a="cases">
+      Cases
+    </button>
+    <button class:active="{!classA}" on:click="{change}" data-a="deaths">
+      Deaths
+    </button>
+  </div>
   <figure class:visible style="height: {chartH}px;" bind:clientWidth="{chartW}">
     {#if visible}
       <LayerCake

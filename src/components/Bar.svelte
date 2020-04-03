@@ -1,6 +1,5 @@
 <style>
   rect {
-    stroke: white;
     fill: #666;
   }
   .Berkshire {

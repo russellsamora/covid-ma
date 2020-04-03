@@ -6,6 +6,7 @@
   --red: #a80a1f;
   --highlight: #a80a1f;
   --highlightText: #a80a1f;
+  --maxWidth: 685px;
 }
 body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,

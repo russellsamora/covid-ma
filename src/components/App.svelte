@@ -48,7 +48,7 @@
     value: rollup(countyData, "Berkshire")
   };
 
-  $: xScale = scaleBand().padding(0);
+  $: xScale = scaleBand().padding(0.1);
   $: {
     const u = uniques(flatData.map(d => d.date)).map(d => new Date(d));
     u.sort(ascending);
@@ -150,8 +150,6 @@
     }));
   }
 </script>
-
-<h3 class="center">Covid-19 cases in Massachusetts</h3>
 
 <BerkshireVsMa data="{[otherData, berkshireData]}" {xScale} {formatTickX} />
 

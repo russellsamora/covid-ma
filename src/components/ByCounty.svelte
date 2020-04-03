@@ -29,15 +29,27 @@
   .choose {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     user-select: none;
+    margin-bottom: 1rem;
+    width: 100%;
   }
   .a,
   .b {
-    width: 50%;
-    padding: 1rem;
+    width: 100%;
+    padding: 0.25rem 0;
+    text-align: center;
+    display: flex;
+    justify-content: center;
   }
-  .a {
-    text-align: right;
+  button {
+    margin: 0 0.25em;
+  }
+  .a button {
+    width: 5rem;
+  }
+  .b button {
+    width: 10rem;
   }
 
   @media only screen and (min-width: 700px) {
@@ -137,26 +149,26 @@
   }
 </script>
 
-<div class="choose">
-  <div class="a">
-    <button class:active="{classA}" on:click="{change}" data-a="cases">
-      Cases
-    </button>
-    <button class:active="{!classA}" on:click="{change}" data-a="deaths">
-      Deaths
-    </button>
-  </div>
-  <div class="b">
-    <button class:active="{classB}" on:click="{change}" data-b="Capita">
-      Population Adjusted
-    </button>
-    <button class:active="{!classB}" on:click="{change}" data-b="">
-      Raw Numbers
-    </button>
-  </div>
-</div>
-
 <div class="charts" class:visible>
+  <h3>Covid-19 cases by county in Massachusetts</h3>
+  <div class="choose">
+    <div class="a">
+      <button class:active="{classA}" on:click="{change}" data-a="cases">
+        Cases
+      </button>
+      <button class:active="{!classA}" on:click="{change}" data-a="deaths">
+        Deaths
+      </button>
+    </div>
+    <div class="b">
+      <button class:active="{classB}" on:click="{change}" data-b="Capita">
+        Population Adjusted
+      </button>
+      <button class:active="{!classB}" on:click="{change}" data-b="">
+        Raw Numbers
+      </button>
+    </div>
+  </div>
   {#each data.filter(d => d.key !== 'Unknown') as { key, value }, i (key)}
     <div class="chart">
       <h5 class="center {key}">{key}</h5>

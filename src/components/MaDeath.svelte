@@ -2,7 +2,7 @@
   .chart {
     margin: 1rem auto;
     width: 100%;
-    max-width: 685px;
+    max-width: var(--maxWidth);
     user-select: none;
   }
   figure {
@@ -63,8 +63,8 @@
   }
 </script>
 
-<div class="chart">
-  <h3>New deaths each day in Massachusetts</h3>
+<div class="chart" class:visible>
+  <h3>Reported deaths each day in Massachusetts</h3>
   <figure class:visible style="height: {chartH}px;" bind:clientWidth="{chartW}">
     {#if visible}
       <LayerCake
@@ -83,6 +83,9 @@
           <AxisY tickNumber="{4}" formatTick="{formatTickY}" />
           <Bar {toggle} key="Mass." />
         </Svg>
+        <Html>
+          <PeakLabel key="Mass." {toggle} {formatTickY} />
+        </Html>
       </LayerCake>
     {/if}
   </figure>
