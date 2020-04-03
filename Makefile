@@ -19,4 +19,4 @@ data:
 	curl -o temp.csv "https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties.csv";
 	csvgrep -c "state" -r  "Massachusetts" temp.csv > src/data/ma.csv;
 	rm temp.csv
-	curl -o nyt.html "https://www.nytimes.com/interactive/2020/us/massachusetts-coronavirus-cases.html"
+	# curl -o nyt.html "https://www.nytimes.com/interactive/2020/us/massachusetts-coronavirus-cases.html"
