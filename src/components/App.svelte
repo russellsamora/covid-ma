@@ -1,11 +1,7 @@
 <style>
   /* vars defined in public/assets/global.css */
   h1 {
-    font-size: 1.5em;
-  }
-
-  h1 {
-    margin-bottom: 0;
+    font-size: 1.25em;
   }
   p {
     margin: 0.5rem 0;
@@ -154,7 +150,7 @@
   }
 </script>
 
-<h1 class="center">Confirmed Covid-19 Cases in Massachusetts</h1>
+<h1 class="center">Covid-19 Cases in Massachusetts</h1>
 
 <BerkshireVsMa data="{[otherData, berkshireData]}" {xScale} {formatTickX} />
 

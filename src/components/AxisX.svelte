@@ -1,5 +1,6 @@
 <style>
   .tick {
+    user-select: none;
   }
 
   line,

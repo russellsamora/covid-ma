@@ -8,6 +8,7 @@
   .chart {
     margin: 1rem 0;
     width: 50%;
+    user-select: none;
   }
   figure {
     padding: 0 1rem;
@@ -20,11 +21,25 @@
   }
   h5 {
     margin: 0;
-    color: var(--gray);
+    color: var(--black);
   }
   .Berkshire {
-    color: var(--highlight);
+    color: var(--highlightText);
   }
+  .choose {
+    display: flex;
+    justify-content: center;
+    user-select: none;
+  }
+  .a,
+  .b {
+    width: 50%;
+    padding: 1rem;
+  }
+  .a {
+    text-align: right;
+  }
+
   @media only screen and (min-width: 700px) {
     .chart {
       width: 25%;
@@ -71,11 +86,14 @@
   const PAD = 8;
   const RATIO = 3;
 
-  let padding = { top: PAD * 2, right: PAD, bottom: PAD * 3, left: PAD };
+  let padding = { top: PAD * 3, right: PAD, bottom: PAD * 3, left: PAD };
   let chartW;
   let visible;
-  let toggle = "casesCapita";
+  let setting = ["cases", "Capita"];
+  let classA = true;
+  let classB = true;
 
+  $: toggle = setting.join("");
   $: flatData = flatten(data.map(d => d.value));
   $: extents = calcExtents(flatData, fields);
 
@@ -99,21 +117,44 @@
   }
 
   function formatTickY(d) {
-    if (toggle.includes("Capita")) return format(".01f")(d);
+    if (toggle.includes("Capita")) return format(".02f")(d);
     return format(",")(d);
+  }
+  function change() {
+    if (this.classList[0] !== "active") {
+      const { a, b } = this.dataset;
+
+      if (typeof a !== "undefined") {
+        setting[0] = a;
+        classA = !classA;
+      }
+      if (typeof b !== "undefined") {
+        setting[1] = b;
+        classB = !classB;
+      }
+      setting = setting;
+    }
   }
 </script>
 
-<p class="center">
-  <select bind:value="{toggle}">
-    <option value="casesCapita">Cumulative cases per 1,000 residents</option>
-    <option value="cases">Cumulative cases (total)</option>
-    <option value="deathsCapita">Cumulative deaths per 1,000 residents</option>
-    <option value="deaths">Cumulative deaths (total)</option>
-    <option value="casesNew">New cases each day</option>
-    <option value="deathsNew">New deaths each day</option>
-  </select>
-</p>
+<div class="choose">
+  <div class="a">
+    <button class:active="{classA}" on:click="{change}" data-a="cases">
+      Cases
+    </button>
+    <button class:active="{!classA}" on:click="{change}" data-a="deaths">
+      Deaths
+    </button>
+  </div>
+  <div class="b">
+    <button class:active="{classB}" on:click="{change}" data-b="Capita">
+      Population Adjusted
+    </button>
+    <button class:active="{!classB}" on:click="{change}" data-b="">
+      Raw Numbers
+    </button>
+  </div>
+</div>
 
 <div class="charts" class:visible>
   {#each data.filter(d => d.key !== 'Unknown') as { key, value }, i (key)}

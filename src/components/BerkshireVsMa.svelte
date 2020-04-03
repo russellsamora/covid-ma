@@ -3,6 +3,7 @@
     margin: 1rem auto;
     width: 100%;
     max-width: 685px;
+    user-select: none;
   }
   figure {
     padding: 0 1rem;
@@ -12,6 +13,14 @@
   }
   figure.visible {
     visibility: visible;
+  }
+  .choose {
+    display: flex;
+    justify-content: center;
+    user-select: none;
+  }
+  button {
+    margin: 0 0.25em;
   }
 </style>
 
@@ -37,14 +46,16 @@
 
   const PAD = 8;
   const RATIO = 3;
-  const START = new Date("2020-03-14");
+  const START = new Date("2020-03-07");
 
   let padding = { top: PAD, right: PAD, bottom: PAD * 3, left: PAD };
   let chartW;
   let visible;
-  let toggle = "deathsCapita";
+  let setting = "deaths";
+  let classA = false;
   let xDomain;
 
+  $: toggle = `${setting}Capita`;
   $: flatData = flatten(data.map(d => d.value));
   $: extents = calcExtents(flatData, fields);
 
@@ -73,14 +84,27 @@
   function formatTickY(d) {
     return format(`.0${toggle === "deathsCapita" ? "2" : "1"}f`)(d);
   }
+  function change() {
+    if (this.classList[0] !== "active") {
+      const { a } = this.dataset;
+
+      if (typeof a !== "undefined") {
+        setting = a;
+        classA = !classA;
+      }
+      setting = setting;
+    }
+  }
 </script>
 
-<p class="center">
-  <select bind:value="{toggle}">
-    <option value="deathsCapita">Cumulative deaths per 1,000 residents</option>
-    <option value="casesCapita">Cumulative cases per 1,000 residents</option>
-  </select>
-</p>
+<div class="choose">
+  <button class:active="{classA}" on:click="{change}" data-a="cases">
+    Cases
+  </button>
+  <button class:active="{!classA}" on:click="{change}" data-a="deaths">
+    Deaths
+  </button>
+</div>
 
 <div class="chart" class:visible>
   <figure class:visible style="height: {chartH}px;" bind:clientWidth="{chartW}">
@@ -97,7 +121,10 @@
           <AxisX
             ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
             formatTick="{formatTickX}" />
-          <AxisY tickNumber="{4}" formatTick="{formatTickY}" />
+          <AxisY
+            tickNumber="{4}"
+            formatTick="{formatTickY}"
+            suffix="{` ${setting} per 1,000 residents`}" />
           <Line {toggle} />
         </Svg>
         <Html>

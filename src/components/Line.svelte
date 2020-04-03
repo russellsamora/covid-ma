@@ -17,8 +17,8 @@
 
   export let toggle;
   $: {
-    console.log($data[0].value[0]);
-    console.log($xGet($data[0].value[0]));
+    // console.log($data[0].value[0]);
+    // console.log($xGet($data[0].value[0]));
   }
   $: path = line()
     .x($xGet)

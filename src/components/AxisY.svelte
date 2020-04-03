@@ -1,5 +1,6 @@
 <style>
   .tick {
+    user-select: none;
   }
 
   line,
@@ -32,6 +33,7 @@
   export let ticks = undefined;
   export let tickNumber = undefined;
   export let baseline = false;
+  export let suffix = "";
 
   $: tickVals = ticks || $yScale.ticks(tickNumber);
 </script>
@@ -51,7 +53,9 @@
         {#if gridlines !== false}
           <line y1="0" y2="0" x1="0" x2="{$width - $padding.right}"></line>
         {/if}
-        <text y="-6" x="0" text-anchor="start">{formatTick(tick)}</text>
+        <text y="-6" x="0" text-anchor="start">
+          {formatTick(tick)} {i === tickVals.length - 1 ? suffix : ''}
+        </text>
       </g>
     {/each}
   {/if}

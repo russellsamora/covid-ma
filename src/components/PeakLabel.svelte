@@ -7,13 +7,15 @@
     background: #fff;
     padding: 0;
     line-height: 1;
-    color: #666;
+    color: var(--black);
     font-weight: bold;
     text-align: center;
-    /* text-shadow: 0 0 3px #fff; */
   }
-  .Berkshire {
-    color: var(--highlight);
+  span {
+    font-weight: normal;
+  }
+  p.Berkshire {
+    color: var(--highlightText);
   }
 </style>
 
@@ -42,5 +44,6 @@
 </script>
 
 <p class="{key}" style="top:{top}px;right:{right}px;">
-  {text} {i === 0 ? suffix[toggle] : ''}
+  {text}
+  <span>{i === 0 ? suffix[toggle] : ''}</span>
 </p>

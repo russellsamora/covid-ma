@@ -7,12 +7,12 @@
     background: #fff;
     padding: 0;
     line-height: 1;
-    color: #666;
+    color: var(--black);
     font-weight: bold;
-    /* text-shadow: 0 0 3px #fff; */
+    text-align: center;
   }
-  .Berkshire {
-    color: var(--highlight);
+  p.Berkshire {
+    color: var(--highlightText);
   }
 </style>
 
@@ -28,6 +28,6 @@
 
 {#each $data as d (d.key)}
   <p class="{d.key}" style="top:{top(d.value)}px;right:{right(d.value)}px;">
-    {d.key}
+    {d.key.includes('Mass') ? d.key : `${d.key} County`}
   </p>
 {/each}
