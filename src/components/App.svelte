@@ -14,8 +14,8 @@
   import { nest } from "d3-collection";
   import { format } from "d3-format";
   import { scaleBand } from "d3-scale";
-  import ByCounty from "./ByCounty.svelte";
   // import BerkshireVsMa from "./BerkshireVsMa.svelte";
+  import ByCounty from "./ByCounty.svelte";
   import MaDeath from "./MaDeath.svelte";
   import population from "../data/population-ma.csv";
   import maData from "../data/ma.csv";
