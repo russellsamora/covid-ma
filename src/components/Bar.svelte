@@ -1,16 +1,10 @@
 <style>
   rect {
     stroke: white;
-  }
-  .cases,
-  .casesCapita,
-  .casesNew {
     fill: #666;
   }
-  .deaths,
-  .deathsCapita,
-  .deathsNew {
-    fill: #c30;
+  .Berkshire {
+    fill: var(--highlight);
   }
 </style>
 
@@ -19,6 +13,7 @@
   const { data, xGet, yGet, xScale, width, height } = getContext("LayerCake");
 
   export let toggle;
+  export let key;
 
   $: w = $xScale.bandwidth();
 
@@ -32,7 +27,8 @@
   {#each $data as d, i (d.index)}
     <g class="day" transform="translate({$xGet(d)}, 0)">
       <rect
-        class="{toggle}"
+        class="{toggle}
+        {key}"
         x="0"
         y="{$yGet(d) - 1}"
         width="{w}"

@@ -12,7 +12,7 @@
     /* text-shadow: 0 0 3px #fff; */
   }
   .Berkshire {
-    color: #c3c;
+    color: var(--highlight);
   }
 </style>
 

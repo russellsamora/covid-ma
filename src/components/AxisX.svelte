@@ -1,18 +1,16 @@
 <style>
   .tick {
-    font-size: 0.725em;
-    font-weight: 200;
   }
 
   line,
   .tick line {
     stroke: #aaa;
-    stroke-dasharray: 2;
   }
 
   .tick text {
-    fill: #2a2a2a;
+    fill: #666;
     font-weight: 400;
+    font-size: 11px;
   }
 
   .baseline {
@@ -25,7 +23,6 @@
 
   const { width, height, xScale, yScale } = getContext("LayerCake");
 
-  export let gridlines = true;
   export let formatTick = d => d;
   export let ticks = undefined;
   export let tickNumber = undefined;

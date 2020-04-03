@@ -71,7 +71,7 @@
   }));
 
   function formatTickY(d) {
-    return format(",")(d);
+    return format(`.0${toggle === "deathsCapita" ? "2" : "1"}f`)(d);
   }
 </script>
 
@@ -97,7 +97,7 @@
           <AxisX
             ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
             formatTick="{formatTickX}" />
-          <AxisY tickNumber="{5}" formatTick="{formatTickY}" />
+          <AxisY tickNumber="{4}" formatTick="{formatTickY}" />
           <Line {toggle} />
         </Svg>
         <Html>

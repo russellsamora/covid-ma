@@ -1,18 +1,16 @@
 <style>
   .tick {
-    font-size: 0.725em;
-    font-weight: 200;
   }
 
   line,
   .tick line {
-    stroke: #aaa;
-    stroke-dasharray: 2;
+    stroke: #ddd;
   }
 
   .tick text {
-    fill: #2a2a2a;
+    fill: #666;
     font-weight: 400;
+    font-size: 11px;
   }
 
   .baseline {
@@ -27,25 +25,34 @@
 <script>
   import { getContext } from "svelte";
 
-  const { width, height, xScale, yScale } = getContext("LayerCake");
+  const { width, height, xScale, yScale, padding } = getContext("LayerCake");
 
   export let gridlines = true;
   export let formatTick = d => d;
   export let ticks = undefined;
   export let tickNumber = undefined;
+  export let baseline = false;
 
   $: tickVals = ticks || $yScale.ticks(tickNumber);
 </script>
 
 <g class="axis y-axis">
-  {#each tickVals as tick, i}
-    <g
-      class="tick tick-{tick}"
-      transform="translate({$xScale.range()[0]},{$yScale(tick)})">
-      {#if gridlines !== false}
-        <line y1="0" y2="0" x1="0" x2="{$width}"></line>
-      {/if}
-      <text y="-2" x="0" text-anchor="baseline">{formatTick(tick)}</text>
-    </g>
-  {/each}
+  {#if baseline}
+    <line
+      y1="{$height}"
+      y2="{$height}"
+      x1="0"
+      x2="{$width - $padding.right}"></line>
+  {:else}
+    {#each tickVals as tick, i}
+      <g
+        class="tick tick-{tick}"
+        transform="translate({$xScale.range()[0]},{$yScale(tick)})">
+        {#if gridlines !== false}
+          <line y1="0" y2="0" x1="0" x2="{$width - $padding.right}"></line>
+        {/if}
+        <text y="-6" x="0" text-anchor="start">{formatTick(tick)}</text>
+      </g>
+    {/each}
+  {/if}
 </g>

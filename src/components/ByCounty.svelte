@@ -20,23 +20,27 @@
   }
   h5 {
     margin: 0;
+    color: var(--gray);
   }
-  @media only screen and (min-width: 640px) {
+  .Berkshire {
+    color: var(--highlight);
+  }
+  @media only screen and (min-width: 700px) {
     .chart {
       width: 25%;
     }
   }
-  @media only screen and (min-width: 800px) {
+  @media only screen and (min-width: 900px) {
     .chart {
       width: 20%;
     }
   }
-  @media only screen and (min-width: 960px) {
+  @media only screen and (min-width: 1100px) {
     .chart {
       width: 16.25%;
     }
   }
-  @media only screen and (min-width: 1120px) {
+  @media only screen and (min-width: 1300px) {
     .chart {
       width: 13.33%;
     }
@@ -45,9 +49,17 @@
 
 <script>
   import Bar from "./Bar.svelte";
-  import AxisY from "./AxisY.svelte";
   import AxisX from "./AxisX.svelte";
-  import { LayerCake, Svg, flatten, calcExtents, uniques } from "layercake";
+  import AxisY from "./AxisY.svelte";
+  import PeakLabel from "./PeakLabel.svelte";
+  import {
+    LayerCake,
+    Svg,
+    Html,
+    flatten,
+    calcExtents,
+    uniques
+  } from "layercake";
   import { descending } from "d3-array";
   import { format } from "d3-format";
 
@@ -59,7 +71,7 @@
   const PAD = 8;
   const RATIO = 3;
 
-  let padding = { top: PAD, right: PAD, bottom: PAD * 3, left: PAD };
+  let padding = { top: PAD * 2, right: PAD, bottom: PAD * 3, left: PAD };
   let chartW;
   let visible;
   let toggle = "casesCapita";
@@ -87,6 +99,7 @@
   }
 
   function formatTickY(d) {
+    if (toggle.includes("Capita")) return format(".01f")(d);
     return format(",")(d);
   }
 </script>
@@ -100,13 +113,12 @@
     <option value="casesNew">New cases each day</option>
     <option value="deathsNew">New deaths each day</option>
   </select>
-  by county
 </p>
 
 <div class="charts" class:visible>
   {#each data.filter(d => d.key !== 'Unknown') as { key, value }, i (key)}
     <div class="chart">
-      <h5 class="center">{key}</h5>
+      <h5 class="center {key}">{key}</h5>
       <figure
         class:visible
         style="height: {chartH}px;"
@@ -124,9 +136,12 @@
               <AxisX
                 ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
                 formatTick="{formatTickX}" />
-              <AxisY tickNumber="{3}" formatTick="{formatTickY}" />
-              <Bar {toggle} />
+              <AxisY baseline="true" />
+              <Bar {toggle} {key} />
             </Svg>
+            <Html>
+              <PeakLabel {key} {toggle} {formatTickY} {i} />
+            </Html>
           </LayerCake>
         {/if}
       </figure>

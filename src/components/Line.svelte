@@ -5,7 +5,7 @@
     fill: none;
   }
   .Berkshire {
-    stroke: #c3c;
+    stroke: var(--highlight);
     stroke-width: 3px;
   }
 </style>
