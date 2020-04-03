@@ -15,7 +15,7 @@
   import { format } from "d3-format";
   import { scaleBand } from "d3-scale";
   import ByCounty from "./ByCounty.svelte";
-  import BerkshireVsMa from "./BerkshireVsMa.svelte";
+  // import BerkshireVsMa from "./BerkshireVsMa.svelte";
   import MaDeath from "./MaDeath.svelte";
   import population from "../data/population-ma.csv";
   import maData from "../data/ma.csv";
@@ -150,7 +150,7 @@
   }
 </script>
 
-<BerkshireVsMa data="{[otherData, berkshireData]}" {xScale} {formatTickX} />
+<!-- <BerkshireVsMa data="{[otherData, berkshireData]}" {xScale} {formatTickX} /> -->
 
 <ByCounty data="{countyData}" {xScale} {xDomain} {formatTickX} />
 
