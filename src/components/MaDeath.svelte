@@ -64,7 +64,7 @@
 </script>
 
 <div class="chart" class:visible>
-  <h3>Reported deaths each day in Massachusetts</h3>
+  <h3>Reported COVID-19 deaths each day in Massachusetts</h3>
   <figure class:visible style="height: {chartH}px;" bind:clientWidth="{chartW}">
     {#if visible}
       <LayerCake

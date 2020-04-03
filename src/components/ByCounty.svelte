@@ -150,7 +150,7 @@
 </script>
 
 <div class="charts" class:visible>
-  <h3>Covid-19 cases by county in Massachusetts</h3>
+  <h3>COVID-19 cases by county in Massachusetts</h3>
   <div class="choose">
     <div class="a">
       <button class:active="{classA}" on:click="{change}" data-a="cases">
