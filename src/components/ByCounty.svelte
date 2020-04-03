@@ -169,7 +169,7 @@
       </button>
     </div>
   </div>
-  {#each data.filter(d => d.key !== 'Unknown') as { key, value }, i (key)}
+  {#each data as { key, value }, i (key)}
     <div class="chart">
       <h5 class="center {key}">{key}</h5>
       <figure

@@ -14,7 +14,7 @@
 
 <footer>
   <p class="center">
-    Data source:
+    Data:
     <a
       target="_blank"
       href="https://www.nytimes.com/interactive/2020/us/coronavirus-us-cases.html">
