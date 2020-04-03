@@ -51,7 +51,6 @@
     "dev:rollup": "rollup -c rollup.config-dev.js -w",
     "dev": "npm run dev:rollup",
     "deploy": "node copy.js && BASEPATH=covid sapper export --basepath covid",
-    "pudding": "BASEPATH=2020/01/name sapper export --basepath 2020/01/name",
     "start": "sirv public"
   }
 }
