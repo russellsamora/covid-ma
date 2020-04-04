@@ -1,23 +1,36 @@
 <style>
+  section {
+    display: none;
+  }
   .charts {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    margin-bottom: 3rem;
+    margin: 0 auto;
+    max-width: var(--maxWidth);
   }
   .chart {
-    margin: 1rem 0;
-    width: 50%;
+    width: 13.33%;
     user-select: none;
   }
   figure {
-    padding: 0;
+    padding: 0 0.5rem;
     display: block;
     margin: 0;
     visibility: hidden;
   }
   figure.visible {
     visibility: visible;
+  }
+  select {
+    font-size: 1em;
+    font-weight: 600;
+    font-family: var(--font);
+    padding: 0;
+    line-height: 1;
+    background: var(--white);
+    outline: none;
+    margin: 0 0.25em;
   }
   h5 {
     margin: 0;
@@ -26,50 +39,10 @@
   .Berkshire {
     color: var(--highlightText);
   }
-  .choose {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    user-select: none;
-    margin-bottom: 1rem;
-    width: 100%;
-  }
-  .a,
-  .b {
-    width: 100%;
-    padding: 0.25rem 0;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-  }
-  button {
-    margin: 0 0.25em;
-  }
-  .a button {
-    width: 5rem;
-  }
-  .b button {
-    width: 10rem;
-  }
 
-  @media only screen and (min-width: 700px) {
-    .chart {
-      width: 25%;
-    }
-  }
-  @media only screen and (min-width: 900px) {
-    .chart {
-      width: 20%;
-    }
-  }
-  @media only screen and (min-width: 1100px) {
-    .chart {
-      width: 16.25%;
-    }
-  }
-  @media only screen and (min-width: 1300px) {
-    .chart {
-      width: 13.33%;
+  @media only screen and (min-width: 960px) {
+    section {
+      display: block;
     }
   }
 </style>
@@ -87,7 +60,7 @@
     calcExtents,
     uniques
   } from "layercake";
-  import { descending } from "d3-array";
+  import { ascending, descending } from "d3-array";
   import { format } from "d3-format";
 
   export let data;
@@ -97,108 +70,101 @@
 
   const PAD = 8;
   const RATIO = 3;
+  const START = new Date("2020-03-03");
+  const BP = 960;
 
-  let padding = { top: PAD * 3, right: PAD, bottom: PAD * 3, left: PAD };
+  let padding = { top: PAD * 3, right: 0, bottom: PAD * 3, left: 0 };
   let chartW;
+  let sectionW;
   let visible;
-  let setting = ["cases", "Capita"];
-  let classA = true;
-  let classB = true;
+  let settingA = "cases";
+  let settingB = "Capita";
 
-  $: toggle = setting.join("");
-  $: flatData = flatten(data.map(d => d.value));
+  $: toggle = `${settingA}${settingB}`;
+  $: flatData = flatten(data.map(d => d.value)).filter(d => d.dateF >= START);
   $: extents = calcExtents(flatData, fields);
 
   $: fields = [
-    { field: "x", accessor: d => d.index },
+    { field: "x", accessor: d => d.dateF },
     { field: "y", accessor: d => d[toggle] }
   ];
 
-  $: chartH = Math.max(120, Math.floor(chartW / RATIO));
-  $: visible = !!chartW;
+  $: chartH = 100;
+  $: visible = !!chartW && !!sectionW && sectionW > BP;
   $: yDomain = [0, extents.y[1]];
+  $: {
+    const u = uniques(flatData.map(d => d.date)).map(d => new Date(d));
+    u.sort(ascending);
+    xDomain = u;
+  }
 
-  $: if (data) {
-    data.sort((a, b) =>
+  $: chartData = data.map(d => ({
+    ...d,
+    value: d.value.filter(v => v.dateF >= START)
+  }));
+
+  $: if (chartData) {
+    chartData.sort((a, b) =>
       descending(
         a.value[a.value.length - 1][toggle],
         b.value[b.value.length - 1][toggle]
       )
     );
-    data = data;
+    chartData = chartData;
   }
 
   function formatTickY(d) {
     if (toggle.includes("Capita")) return format(".02f")(d);
     return format(",")(d);
   }
-  function change() {
-    if (this.classList[0] !== "active") {
-      const { a, b } = this.dataset;
-
-      if (typeof a !== "undefined") {
-        setting[0] = a;
-        classA = !classA;
-      }
-      if (typeof b !== "undefined") {
-        setting[1] = b;
-        classB = !classB;
-      }
-      setting = setting;
-    }
-  }
 </script>
 
-<div class="charts" class:visible>
-  <h3>Cumulative COVID-19 cases by county</h3>
-  <div class="choose">
-    <div class="a">
-      <button class:active="{classA}" on:click="{change}" data-a="cases">
-        Cases
-      </button>
-      <button class:active="{!classA}" on:click="{change}" data-a="deaths">
-        Deaths
-      </button>
-    </div>
-    <div class="b">
-      <button class:active="{classB}" on:click="{change}" data-b="Capita">
-        Population Adjusted
-      </button>
-      <button class:active="{!classB}" on:click="{change}" data-b="">
-        Raw Numbers
-      </button>
-    </div>
+<section bind:offsetWidth="{sectionW}">
+  <h3>
+    Cumulative COVID-19
+    <select bind:value="{settingA}">
+      <option value="cases">cases</option>
+      <option value="deaths">deaths</option>
+    </select>
+    by county
+    <select bind:value="{settingB}">
+      <option value="">(raw numbers)</option>
+      <option value="Capita">(population adjusted)</option>
+    </select>
+  </h3>
+  <div class="charts" class:visible>
+    {#each chartData as { key, value }, i (key)}
+      <div class="chart">
+        <h5 class="center {key}">{key}</h5>
+        <figure
+          class:visible
+          style="height: {chartH}px;"
+          bind:clientWidth="{chartW}">
+          {#if visible}
+            <LayerCake
+              {xScale}
+              {xDomain}
+              {yDomain}
+              {padding}
+              x="dateF"
+              y="{toggle}"
+              data="{value}">
+              <Svg>
+                <AxisX
+                  ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
+                  formatTick="{formatTickX}"
+                  bar="{true}"
+                  index="{i}" />
+                <AxisY baseline="true" />
+                <Bar {toggle} {key} />
+              </Svg>
+              <Html>
+                <PeakLabel {key} {toggle} {formatTickY} {i} />
+              </Html>
+            </LayerCake>
+          {/if}
+        </figure>
+      </div>
+    {/each}
   </div>
-  {#each data as { key, value }, i (key)}
-    <div class="chart">
-      <h5 class="center {key}">{key}</h5>
-      <figure
-        class:visible
-        style="height: {chartH}px;"
-        bind:clientWidth="{chartW}">
-        {#if visible}
-          <LayerCake
-            {xScale}
-            {xDomain}
-            {yDomain}
-            {padding}
-            x="dateF"
-            y="{toggle}"
-            data="{value}">
-            <Svg>
-              <AxisX
-                ticks="{[xDomain[0], xDomain[xDomain.length - 1]]}"
-                formatTick="{formatTickX}"
-                bar="{true}" />
-              <AxisY baseline="true" />
-              <Bar {toggle} {key} />
-            </Svg>
-            <Html>
-              <PeakLabel {key} {toggle} {formatTickY} {i} />
-            </Html>
-          </LayerCake>
-        {/if}
-      </figure>
-    </div>
-  {/each}
-</div>
+</section>

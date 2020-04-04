@@ -50,7 +50,7 @@
     "build": "rollup -c rollup.config-dev.js",
     "dev:rollup": "rollup -c rollup.config-dev.js -w",
     "dev": "npm run dev:rollup",
-    "deploy": "node copy.js && BASEPATH=covid-ma sapper export --basepath covid-ma",
+    "prod": "rollup -c rollup.config-prod.js",
     "start": "sirv public"
   }
 }

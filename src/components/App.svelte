@@ -1,14 +1,9 @@
-<style global src="../../static/assets/global.css">
-
-</style>
-
 <script>
   import { LayerCake, Svg, flatten, calcExtents, uniques } from "layercake";
   import { min, range, sum, ascending } from "d3-array";
   import { nest } from "d3-collection";
   import { format } from "d3-format";
   import { scaleBand } from "d3-scale";
-  // import BerkshireVsMa from "./BerkshireVsMa.svelte";
   import ByCounty from "./ByCounty.svelte";
   import MaDeath from "./MaDeath.svelte";
   import Credit from "./Credit.svelte";

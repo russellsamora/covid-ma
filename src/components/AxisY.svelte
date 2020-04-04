@@ -53,7 +53,7 @@
         {#if gridlines !== false}
           <line y1="0" y2="0" x1="0" x2="{$width - $padding.right}"></line>
         {/if}
-        <text y="-6" x="0" text-anchor="start">
+        <text y="-2" x="0" text-anchor="start">
           {formatTick(tick)} {i === tickVals.length - 1 ? suffix : ''}
         </text>
       </g>

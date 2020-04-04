@@ -6,7 +6,6 @@
     margin: 0;
     margin-top: -0.5rem;
     background: #fff;
-    padding: 0;
     line-height: 1.4;
     color: var(--black);
     font-weight: bold;

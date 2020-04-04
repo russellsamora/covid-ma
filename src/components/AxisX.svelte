@@ -28,21 +28,24 @@
   export let ticks = undefined;
   export let tickNumber = undefined;
   export let bar = false;
+  export let index = 0;
 
   $: tickVals = ticks || $xScale.ticks(tickNumber);
 </script>
 
-<g class="axis x-axis">
-  {#each tickVals as tick, i}
-    <g
-      class="tick tick-{tick}"
-      transform="translate({$xScale(tick)},{$yScale.range()[0] + 16})">
-      <text
-        y="0"
-        x="{i === 0 ? 0 : bar ? $xScale.bandwidth() : 0}"
-        text-anchor="{i === 0 ? 'start' : 'end'}">
-        {formatTick(tick)}
-      </text>
-    </g>
-  {/each}
-</g>
+{#if index === 0}
+  <g class="axis x-axis">
+    {#each tickVals as tick, i}
+      <g
+        class="tick tick-{tick}"
+        transform="translate({$xScale(tick)},{$yScale.range()[0] + 16})">
+        <text
+          y="0"
+          x="{i === 0 ? 0 : bar ? $xScale.bandwidth() : 0}"
+          text-anchor="{i === 0 ? 'start' : 'end'}">
+          {formatTick(tick)}
+        </text>
+      </g>
+    {/each}
+  </g>
+{/if}
