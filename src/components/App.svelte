@@ -45,6 +45,10 @@
     xDomain = u;
   }
 
+  $: {
+    console.log(stateData);
+  }
+
   function formatTickX(d) {
     return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}`;
   }
