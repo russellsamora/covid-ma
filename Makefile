@@ -1,4 +1,4 @@
-PHONY: github data
+PHONY: github data prod update
 
 github:
 	rm -rf docs
@@ -17,4 +17,3 @@ update:
 	make data
 	make prod
 	make github
-	
