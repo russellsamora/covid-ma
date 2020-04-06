@@ -142,7 +142,11 @@
 
 <!-- <BerkshireVsMa data="{[otherData, berkshireData]}" {xScale} {formatTickX} /> -->
 
-<ByCounty data="{countyData}" {xScale} {xDomain} {formatTickX} />
+<ByCounty
+  data="{countyData.filter(d => d.key !== 'Unknown')}"
+  {xScale}
+  {xDomain}
+  {formatTickX} />
 
 <MaDeath data="{stateData.value}" {xScale} {xDomain} {formatTickX} />
 
