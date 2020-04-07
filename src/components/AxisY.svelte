@@ -34,7 +34,6 @@
   export let tickNumber = undefined;
   export let baseline = false;
   export let suffix = "";
-
   $: tickVals = ticks || $yScale.ticks(tickNumber);
 </script>
 

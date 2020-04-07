@@ -2,7 +2,7 @@
   p {
     position: absolute;
     transform: translate(0, -100%);
-    font-size: 11px;
+    font-size: 10px;
     margin: 0;
     margin-top: -0.5rem;
     background: #fff;
@@ -32,6 +32,11 @@
   p.Berkshire:after {
     border-right: 1px dashed var(--highlight);
   }
+  @media only screen and (min-width: 1080px) {
+    p {
+      font-size: 11px;
+    }
+  }
 </style>
 
 <script>
@@ -45,9 +50,9 @@
   export let i = 0;
 
   const suffix = {
-    casesCapita: "cases per 1,000",
+    casesCapita: "cases per 100,000",
     cases: "total cases",
-    deathsCapita: "deaths per 1,000",
+    deathsCapita: "deaths per 100,000",
     deaths: "total deaths",
     casesNew: "reported cases",
     deathsNew: "reported deaths"
