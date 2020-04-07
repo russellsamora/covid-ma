@@ -114,7 +114,7 @@
   }
 
   function formatTickY(d) {
-    if (toggle.includes("Capita")) return format(".02f")(d);
+    if (toggle.includes("Capita")) return format(".0f")(d);
     return format(",")(d);
   }
 </script>
