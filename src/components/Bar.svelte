@@ -25,7 +25,7 @@
 
 <g class="days">
   {#each $data as d, i (d.dayIndex)}
-    <g class="day" transform="translate({$xGet(d)}, 0)">
+    <g class="day" transform="translate({$xGet(d)}, 0)" data-val="{d[toggle]}">
       <rect
         class="{toggle}
         {key}"
