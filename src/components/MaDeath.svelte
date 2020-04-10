@@ -52,7 +52,7 @@
   const PAD = 8;
   const RATIO = 3;
   const BP = 960;
-  const START = new Date("2020-10-03");
+  const START = new Date("2020-03-03");
 
   let padding = { top: PAD * 3, right: PAD, bottom: PAD * 3, left: PAD };
   let chartW;
