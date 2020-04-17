@@ -70,7 +70,7 @@
 
   const PAD = 8;
   const RATIO = 3;
-  const START = new Date("2020-03-15");
+  const START = new Date("2020-03-17");
   const BP = 960;
 
   let padding = { top: PAD * 3, right: 0, bottom: PAD * 3, left: 0 };
